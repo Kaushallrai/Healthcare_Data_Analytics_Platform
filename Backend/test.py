@@ -139,3 +139,61 @@
 # print("Predictions:", predictions)
 # # Print the expected values
 # print("Expected values:", [0, 1, 0, 1, 0])
+
+
+# import pandas as pd
+# import joblib
+# from sklearn.preprocessing import LabelEncoder
+
+# # Load the trained Random Forest model
+# rfc_model = joblib.load('../Backend/Chronic kidney disease prediction/Models/rfc_model.pkl')
+
+# def predict(age, bp, sg, al, su, rbc, pc, pcc, ba, bgr, bu, sc, sod, pot, hemo, wc, rc, htn, dm, cad, appet, pe, ane):
+#     # Create a DataFrame with the input parameters using the correct feature order
+#     data = pd.DataFrame({
+#         'age': [age],
+#         'bp': [bp],
+#         'sg': [sg],
+#         'al': [al],
+#         'su': [su],
+#         'rbc': [rbc],
+#         'pc': [pc],
+#         'pcc': [pcc],
+#         'ba': [ba],
+#         'bgr': [bgr],
+#         'bu': [bu],
+#         'sc': [sc],
+#         'sod': [sod],
+#         'pot': [pot],
+#         'hemo': [hemo],
+#         'wc': [wc],
+#         'rc': [rc],
+#         'htn': [htn],
+#         'dm': [dm],
+#         'cad': [cad],
+#         'appet': [appet],
+#         'pe': [pe],
+#         'ane': [ane]
+#     }, columns=['age', 'bp', 'sg', 'al', 'su', 'rbc', 'pc', 'pcc', 'ba', 'bgr', 'bu', 'sc', 'sod', 'pot', 'hemo', 'wc', 'rc', 'htn', 'dm', 'cad', 'appet', 'pe', 'ane'])
+
+#     # Encode categorical variables
+#     categorical_cols = ['rbc', 'pc', 'pcc', 'ba', 'htn', 'dm', 'cad', 'appet', 'pe', 'ane']
+#     le = LabelEncoder()
+#     data[categorical_cols] = data[categorical_cols].apply(lambda col: le.fit_transform(col))
+
+#     # Make predictions
+#     prediction = rfc_model.predict(data)
+#     return prediction[0]
+
+# # Prediction 1
+# prediction = predict(62, 85, 1.018, 3, 1, 1, 1, 1, 1, 180, 45, 1.2, 142, 5.0, 10.5, 8000, 6.0, 1, 1, 1, 1, 1, 1)
+# if prediction:
+#     print('Oops! You have Chronic Kidney Disease.')
+# else:
+#     print("Great! You don't have Chronic Kidney Disease.")
+
+# prediction2 = predict(35, 60, 1.015, 0, 2, 0, 1, 1, 0, 90, 18, 0.6, 130, 3.8, 13.2, 6000, 4.1, 0, 0, 0, 0, 0, 0)
+# if prediction2:
+#     print('Oops! You have Chronic Kidney Disease.')
+# else:
+#     print("Great! You don't have Chronic Kidney Disease.")
