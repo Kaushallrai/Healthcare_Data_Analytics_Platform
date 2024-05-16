@@ -1,90 +1,81 @@
-from flask import Flask, request, jsonify
-import pandas as pd
-import pickle
-from scipy.stats import mode
+from flask import Flask, jsonify, request
 from flask_cors import CORS
-import joblib
-import numpy as np
-from sklearn.preprocessing import LabelEncoder
+import mysql.connector
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable Cross-Origin Resource Sharing (CORS)
 
-# Load Models
-final_svm_model = joblib.load('final_svm_model.pkl')
-final_nb_model = joblib.load('final_nb_model.pkl')
-final_rf_model = joblib.load('final_rf_model.pkl')
+# MySQL connection configuration
+db = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="@admin17345",
+    database="healthcare_analytics"
+)
 
-DATA_PATH = "./Training.csv"
-data = pd.read_csv(DATA_PATH).dropna(axis=1)
+if db.is_connected():
+    print("Connected to MySQL database")
 
-# Splitting the data into X and y
-X = data.iloc[:, :-1]
-y = data.iloc[:, -1]
+cursor = db.cursor(dictionary=True)
 
-encoder = LabelEncoder()
-data["prognosis"] = encoder.fit_transform(data["prognosis"])
-
-symptoms = X.columns.values
-
-# Creating a symptom index dictionary to encode the
-# input symptoms into numerical form
-symptom_index = {}
-for index, value in enumerate(symptoms):
-    symptom = " ".join([i.capitalize() for i in value.split("_")])
-    symptom_index[symptom] = index
-
-data_dict = {
-    "symptom_index": symptom_index,
-    "predictions_classes": encoder.classes_
-}
-
-def predictDisease(symptoms):
-    symptoms = symptoms.split(",")[:3]
-
-    # creating input data for the models
-    input_data = [0] * len(data_dict["symptom_index"])
-    for symptom in symptoms:
-        # Convert the symptom to lowercase and capitalize first letter
-        symptom_formatted = symptom.lower().capitalize()
-        index = data_dict["symptom_index"].get(symptom_formatted)
-        if index is not None:
-            input_data[index] = 1
-        else:
-            print(f"Symptom '{symptom}' not found in symptom_index dictionary.")
-
-    # reshaping the input data and converting it
-    # into suitable format for model predictions
-    input_data = np.array(input_data).reshape(1, -1)
-
-    # generating individual outputs
-    rf_prediction = data_dict["predictions_classes"][final_rf_model.predict(
-        input_data)[0]]
-    nb_prediction = data_dict["predictions_classes"][final_nb_model.predict(
-        input_data)[0]]
-    svm_prediction = data_dict["predictions_classes"][final_svm_model.predict(
-        input_data)[0]]
-
-    # making final prediction using custom logic to find mode
-    predictions_list = [rf_prediction, nb_prediction, svm_prediction]
-    final_prediction = max(set(predictions_list), key=predictions_list.count)
-
-    predictions = {
-        "rf_model_prediction": rf_prediction,
-        "naive_bayes_prediction": nb_prediction,
-        "svm_model_prediction": svm_prediction,
-        "final_prediction": final_prediction
-    }
-    return predictions
+# Route to check if patient data has been fetched
+@app.route('/check_patient_data')
+def check_patient_data():
+    cursor.execute("SELECT COUNT(*) AS total_patients FROM patients")
+    result = cursor.fetchone()
+    total_patients = result['total_patients']
+    if total_patients > 0:
+        return 'Patient data has been fetched successfully!'
+    else:
+        return 'No patient data found.'
 
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    symptoms = request.json['symptoms']
-    predictions = predictDisease(symptoms)
-    print(predictions)
-    return jsonify(predictions)
+# Route for getting all patients
+@app.route('/api/patients', methods=['GET'])
+def get_patients():
+    cursor = db.cursor(dictionary=True)
+    cursor.execute("SELECT * FROM patients")
+    patients = cursor.fetchall()
+    cursor.close()
+    return jsonify(patients)
 
+# Route for adding a new patient
+@app.route('/api/patients', methods=['POST'])
+def add_patient():
+    data = request.get_json()
+    admission_date = data.get('admission_date', None)
+    cursor = db.cursor()
+    query = "INSERT INTO patients (name, age, gender, email, phone, address,admission_date) VALUES (%s, %s, %s, %s, %s, %s,%s)"
+    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'],data['admission_date'])
+    cursor.execute(query, values)
+    db.commit()
+    patient_id = cursor.lastrowid
+    cursor.close()
+    return jsonify({'patient_id': patient_id})
+
+
+# Route for updating a patient
+@app.route('/api/patients/<int:patient_id>', methods=['PUT'])
+def update_patient(patient_id):
+    data = request.get_json()
+    cursor = db.cursor()
+    query = "UPDATE patients SET name = %s, age = %s, gender = %s, email = %s, phone = %s, address = %s,diagnosis = %s, admission_date = %s,WHERE patient_id = %s"
+    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'], data['diagnosis'], data['admission_date'],patient_id)
+    cursor.execute(query, values)
+    db.commit()
+    cursor.close()
+    return jsonify({'message': 'Patient updated successfully'})
+
+# Route for deleting a patient
+@app.route('/api/patients/<int:patient_id>', methods=['DELETE'])
+def delete_patient(patient_id):
+    cursor = db.cursor()
+    query = "DELETE FROM patients WHERE patient_id = %s"
+    values = (patient_id,)
+    cursor.execute(query, values)
+    db.commit()
+    cursor.close()
+    return jsonify({'message': 'Patient deleted successfully'})
 
 if __name__ == '__main__':
     app.run(debug=True)
