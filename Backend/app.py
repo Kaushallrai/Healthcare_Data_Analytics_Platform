@@ -45,22 +45,21 @@ def add_patient():
     data = request.get_json()
     admission_date = data.get('admission_date', None)
     cursor = db.cursor()
-    query = "INSERT INTO patients (name, age, gender, email, phone, address,admission_date) VALUES (%s, %s, %s, %s, %s, %s,%s)"
-    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'],data['admission_date'])
+    query = "INSERT INTO patients (name, age, gender, email, phone, address, diagnosis, admission_date, dob) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'], data['diagnosis'], data['admission_date'], data['dob'])
     cursor.execute(query, values)
     db.commit()
     patient_id = cursor.lastrowid
     cursor.close()
     return jsonify({'patient_id': patient_id})
 
-
 # Route for updating a patient
 @app.route('/api/patients/<int:patient_id>', methods=['PUT'])
 def update_patient(patient_id):
     data = request.get_json()
     cursor = db.cursor()
-    query = "UPDATE patients SET name = %s, age = %s, gender = %s, email = %s, phone = %s, address = %s,diagnosis = %s, admission_date = %s,WHERE patient_id = %s"
-    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'], data['diagnosis'], data['admission_date'],patient_id)
+    query = "UPDATE patients SET name = %s, age = %s, gender = %s, email = %s, phone = %s, address = %s, diagnosis = %s, admission_date = %s, dob = %s WHERE patient_id = %s"
+    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'], data['diagnosis'], data['admission_date'], data['dob'], patient_id)
     cursor.execute(query, values)
     db.commit()
     cursor.close()

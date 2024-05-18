@@ -1,29 +1,46 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  // FiArrowLeft,
-  // FiArrowRight,
   FiHome,
   FiUsers,
   FiBarChart2,
   FiFileText,
   FiSettings,
   FiLogOut,
+  FiBarChart,
+  FiUser,
+  FiPieChart,
+  FiChevronDown,
 } from "react-icons/fi";
 
 const Sidebar = () => {
   const [isOpen] = useState(true);
-  // eslint-disable-next-line no-unused-vars
   const [activeLink, setActiveLink] = useState("/");
+  const [statisticsDropdown, setStatisticsDropdown] = useState(false);
   const location = useLocation();
 
-  const handleLinkClick = (path) => {
+  const handleLinkClick = (path, shouldToggleDropdown = false) => {
     setActiveLink(path);
+    if (shouldToggleDropdown) {
+      setStatisticsDropdown(!statisticsDropdown);
+    }
   };
 
   const isLinkActive = (path) => {
     return location.pathname === path;
   };
+
+  const isParentLinkActive = (parentPath, childPaths) => {
+    return (
+      isLinkActive(parentPath) || childPaths.some((path) => isLinkActive(path))
+    );
+  };
+
+  const statisticsChildPaths = [
+    "/statistics/patient-summary",
+    "/statistics/overall-summary",
+  ];
 
   return (
     <div
@@ -47,12 +64,6 @@ const Sidebar = () => {
                 Heathcare Analytics
               </span>
             </div>
-            {/* <button
-              className="p-2 rounded-md hover:bg-gray-200 transition-colors duration-300 focus:outline-none"
-              onClick={() => setIsOpen(!isOpen)}
-            >
-              {isOpen ? <FiArrowLeft /> : <FiArrowRight />}
-            </button> */}
           </div>
           <nav>
             <ul className={`space-y-2 flex flex-col gap-4 h-full`}>
@@ -90,11 +101,10 @@ const Sidebar = () => {
               </li>
               <hr className="mx-4" />
               <li>
-                <Link
-                  to="/statistics"
-                  onClick={() => handleLinkClick("/statistics")}
+                <a
+                  onClick={() => handleLinkClick("/statistics", true)}
                   className={`flex items-center p-2 rounded-md ${
-                    isLinkActive("/statistics")
+                    isParentLinkActive("/statistics", statisticsChildPaths)
                       ? "bg-gray-200 text-gray-800"
                       : "hover:bg-gray-200 transition-colors duration-300"
                   }`}
@@ -103,7 +113,54 @@ const Sidebar = () => {
                   <span className={`${isOpen ? "ml-2" : "hidden"}`}>
                     Statistics
                   </span>
-                </Link>
+                  <FiChevronDown
+                    className={`ml-auto transition-transform ${
+                      statisticsDropdown ? "rotate-180" : ""
+                    }`}
+                  />
+                </a>
+                <ul
+                  className={`ml-6 overflow-hidden transition-max-height duration-500 ${
+                    statisticsDropdown ? "max-h-48" : "max-h-0"
+                  }`}
+                >
+                  <li>
+                    <Link
+                      to="/statistics/patient-summary"
+                      onClick={() =>
+                        handleLinkClick("/statistics/patient-summary")
+                      }
+                      className={`flex items-center p-2 rounded-md my-2 ${
+                        isLinkActive("/statistics/patient-summary")
+                          ? "bg-gray-200 text-gray-800"
+                          : "hover:bg-gray-200 transition-colors duration-500"
+                      }`}
+                    >
+                      <FiUser className="ml-2" />
+                      <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                        Patient Summary
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/statistics/overall-summary"
+                      onClick={() =>
+                        handleLinkClick("/statistics/overall-summary")
+                      }
+                      className={`flex items-center p-2 rounded-md ${
+                        isLinkActive("/statistics/overall-summary")
+                          ? "bg-gray-200 text-gray-800"
+                          : "hover:bg-gray-200 transition-colors duration-500"
+                      }`}
+                    >
+                      <FiPieChart className="ml-2" />
+                      <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                        Overall Summary
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
               <li>
                 <Link
@@ -112,12 +169,28 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isLinkActive("/report")
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-gray-200 transition-colors duration-500"
                   }`}
                 >
                   <FiFileText className="ml-2" />
                   <span className={`${isOpen ? "ml-2" : "hidden"}`}>
                     Report
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/analytical-tools"
+                  onClick={() => handleLinkClick("/analytical-tools")}
+                  className={`flex items-center p-2 rounded-md ${
+                    isLinkActive("/analytical-tools")
+                      ? "bg-gray-200 text-gray-800"
+                      : "hover:bg-gray-200 transition-colors duration-300"
+                  }`}
+                >
+                  <FiBarChart className="ml-2" />
+                  <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                    Analytical Tools
                   </span>
                 </Link>
               </li>

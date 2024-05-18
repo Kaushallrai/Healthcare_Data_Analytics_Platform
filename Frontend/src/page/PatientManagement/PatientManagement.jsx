@@ -3,6 +3,7 @@ import axios from "axios";
 import Button from "../../components/button.jsx";
 import PatientTable from "./component/PatientTable.jsx";
 import AddPatientModal from "./component/AddPatientModal.jsx";
+import { toast } from "react-toastify";
 
 const PatientManagement = () => {
   const [patients, setPatients] = useState([]);
@@ -32,9 +33,11 @@ const PatientManagement = () => {
       .then((response) => {
         setPatients([...patients, response.data]);
         setShowAddModal(false);
+        toast.success("Patient added successfully!");
       })
       .catch((error) => {
         console.error("Error adding patient:", error);
+        toast.error("Error adding patient. Please try again.");
       });
   };
 

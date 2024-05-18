@@ -143,8 +143,9 @@
 
 #Heart disease prediction
 
-# import pandas as pd
-# import joblib
+# import pandas as pd 
+# import joblib 
+# from sklearn.metrics import accuracy_score, confusion_matrix
 
 # # Load the trained model
 # random_forest_model = joblib.load('../Backend/Heart disease prediction/Models/random_forest_model.pkl')
@@ -175,8 +176,19 @@
 
 # # Make predictions using the model
 # predictions = random_forest_model.predict(test_data_selected)
-# print("Predictions:", predictions)
-# print("Expected values:", [0,0,1,1,0])
+
+# probs = random_forest_model.predict_proba(test_data_selected)[:, 1]*100
+
+# print("Predictions:", predictions) 
+# print("Probabilities:", probs)
+
+# expected_values = [0, 0, 1, 1, 0] 
+# print("Expected values:", expected_values)
+
+# accuracy = accuracy_score(expected_values, predictions) 
+# conf_matrix = confusion_matrix(expected_values, predictions) 
+# print("Accuracy:", accuracy) 
+# print("Confusion matrix:\n", conf_matrix)
 
 
 

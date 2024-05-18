@@ -3,6 +3,7 @@ import "./App.css";
 import PatientManagementPage from "./page/PatientManagement/PatientManagementPage";
 import Dashboard from "./page/Dashboard";
 import Demo from "./page/demo";
+import PatientSummaryPage from "./page/Statistics/Patient-stats/PatientSummaryPage";
 
 function App() {
   return (
@@ -15,6 +16,10 @@ function App() {
             element={<PatientManagementPage />}
           />
           <Route path="/demo" element={<Demo />} />
+          <Route
+            path="/statistics/patient-summary"
+            element={<PatientSummaryPage />}
+          />
         </Routes>
       </div>
     </Router>

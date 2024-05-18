@@ -25,6 +25,8 @@ const AddPatientModal = ({ show, onClose, onSubmit }) => {
     clearForm();
   };
 
+  // Show success notification
+
   const clearForm = () => {
     setName("");
     setAge("");
