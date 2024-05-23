@@ -4,6 +4,7 @@ import PatientManagementPage from "./page/PatientManagement/PatientManagementPag
 import Dashboard from "./page/Dashboard";
 import Demo from "./page/demo";
 import PatientSummaryPage from "./page/Statistics/Patient-stats/PatientSummaryPage";
+import HeartDiseasePredictionPage from "./page/Analytical-Tools/Disease-Prediction/Heart-Disease/HeartDiseasePredictionPage";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
           <Route
             path="/statistics/patient-summary"
             element={<PatientSummaryPage />}
+          />
+          <Route
+            path="/Analytical-Tools/Disease-Prediction/Heart-Disease-Prediction"
+            element={<HeartDiseasePredictionPage />}
           />
         </Routes>
       </div>
