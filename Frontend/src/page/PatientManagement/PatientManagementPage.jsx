@@ -7,7 +7,7 @@ const PatientManagementPage = () => {
 
   return (
     <div className=" h-screen">
-      <main className="">
+      <main className="bg-gray-100">
         <Header />
         <Sidebar activePage={pageTitle} />
         <div

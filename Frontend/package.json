@@ -12,6 +12,8 @@
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
+    "@fortawesome/free-solid-svg-icons": "^6.5.2",
+    "@fortawesome/react-fontawesome": "^0.2.1",
     "@mui/material": "^5.15.17",
     "axios": "^1.6.8",
     "lucide-react": "^0.378.0",
@@ -21,7 +23,8 @@
     "react-router-dom": "^6.23.1",
     "react-table": "^7.8.0",
     "react-toastify": "^10.0.5",
-    "react-tooltip": "^5.26.4"
+    "react-tooltip": "^5.26.4",
+    "tailwindcss-gradients": "^3.0.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

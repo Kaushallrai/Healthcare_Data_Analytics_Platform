@@ -12,18 +12,51 @@ import {
   FiUser,
   FiPieChart,
   FiChevronDown,
+  FiHeart,
+  FiThermometer,
+  FiMonitor,
+  FiDroplet,
+  FiFilter,
+  FiActivity,
 } from "react-icons/fi";
+import { BsHeartPulse } from "react-icons/bs";
+import { GiKidneys } from "react-icons/gi";
 
 const Sidebar = () => {
-  const [isOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true);
   const [activeLink, setActiveLink] = useState("/");
   const [statisticsDropdown, setStatisticsDropdown] = useState(false);
+  const [analyticalToolsDropdown, setAnalyticalToolsDropdown] = useState(false);
   const location = useLocation();
 
-  const handleLinkClick = (path, shouldToggleDropdown = false) => {
+  const [diseasePredictionDropdown, setDiseasePredictionDropdown] =
+    useState(false);
+
+  const handleLinkClick = (
+    path,
+    shouldToggleDropdown = false,
+    dropdownToToggle = null
+  ) => {
     setActiveLink(path);
+
     if (shouldToggleDropdown) {
-      setStatisticsDropdown(!statisticsDropdown);
+      if (dropdownToToggle === "statistics") {
+        setStatisticsDropdown(!statisticsDropdown);
+        setAnalyticalToolsDropdown(false);
+        setDiseasePredictionDropdown(false);
+      } else if (dropdownToToggle === "analyticalTools") {
+        setAnalyticalToolsDropdown(!analyticalToolsDropdown);
+        setStatisticsDropdown(false);
+        setDiseasePredictionDropdown(false);
+      } else if (dropdownToToggle === "diseasePrediction") {
+        setDiseasePredictionDropdown(!diseasePredictionDropdown);
+        setStatisticsDropdown(false);
+        setAnalyticalToolsDropdown(true); // Keep "Analytical Tools" dropdown open
+      }
+    } else {
+      setStatisticsDropdown(false);
+      setAnalyticalToolsDropdown(false);
+      setDiseasePredictionDropdown(false);
     }
   };
 
@@ -102,7 +135,9 @@ const Sidebar = () => {
               <hr className="mx-4" />
               <li>
                 <a
-                  onClick={() => handleLinkClick("/statistics", true)}
+                  onClick={() =>
+                    handleLinkClick("/statistics", true, "statistics")
+                  }
                   className={`flex items-center p-2 rounded-md ${
                     isParentLinkActive("/statistics", statisticsChildPaths)
                       ? "bg-gray-200 text-gray-800"
@@ -179,11 +214,24 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/analytical-tools"
-                  onClick={() => handleLinkClick("/analytical-tools")}
+                <a
+                  onClick={() =>
+                    handleLinkClick(
+                      "/analytical-tools",
+                      true,
+                      "analyticalTools"
+                    )
+                  }
                   className={`flex items-center p-2 rounded-md ${
-                    isLinkActive("/analytical-tools")
+                    isParentLinkActive("/analytical-tools", [
+                      "/analytical-tools/disease-prediction",
+                      "/analytical-tools/disease-prediction/heart-disease",
+                      "/analytical-tools/disease-prediction/diabetes",
+                      "/analytical-tools/disease-prediction/kidney-disease",
+                      "/analytical-tools/disease-prediction/generic-disease",
+                      "/analytical-tools/readmission-prediction",
+                      "/analytical-tools/treatment-outcome",
+                    ])
                       ? "bg-gray-200 text-gray-800"
                       : "hover:bg-gray-200 transition-colors duration-300"
                   }`}
@@ -192,9 +240,186 @@ const Sidebar = () => {
                   <span className={`${isOpen ? "ml-2" : "hidden"}`}>
                     Analytical Tools
                   </span>
-                </Link>
+                  <FiChevronDown
+                    className={`ml-auto transition-transform ${
+                      analyticalToolsDropdown ? "rotate-180" : ""
+                    }`}
+                  />
+                </a>
+                <ul
+                  className={`ml-6 overflow-hidden transition-max-height duration-500 ${
+                    analyticalToolsDropdown ? "max-h-96" : "max-h-0"
+                  }`}
+                >
+                  <li>
+                    <a
+                      onClick={() =>
+                        handleLinkClick(
+                          "/analytical-tools/disease-prediction",
+                          true,
+                          "diseasePrediction"
+                        )
+                      }
+                      className={`flex items-center p-2 rounded-md ${
+                        isParentLinkActive(
+                          "/analytical-tools/disease-prediction",
+                          [
+                            "/analytical-tools/disease-prediction/heart-disease",
+                            "/analytical-tools/disease-prediction/diabetes",
+                            "/analytical-tools/disease-prediction/kidney-disease",
+                            "/analytical-tools/disease-prediction/generic-disease",
+                          ]
+                        )
+                          ? "bg-gray-200 text-gray-800"
+                          : "hover:bg-gray-200 transition-colors duration-300"
+                      }`}
+                    >
+                      <FiHeart className="ml-[-5px]" />
+                      <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                        Disease Prediction
+                      </span>
+                      <FiChevronDown
+                        className={`ml-auto transition-transform ${
+                          diseasePredictionDropdown ? "rotate-180" : ""
+                        }`}
+                      />
+                    </a>
+                    <ul
+                      className={`ml-6 overflow-hidden transition-max-height duration-500 ${
+                        diseasePredictionDropdown ? "max-h-48" : "max-h-0"
+                      }`}
+                    >
+                      <li>
+                        <Link
+                          to="/analytical-tools/disease-prediction/heart-disease"
+                          onClick={() =>
+                            handleLinkClick(
+                              "/analytical-tools/disease-prediction/heart-disease"
+                            )
+                          }
+                          className={`flex items-center p-2 rounded-md ${
+                            isLinkActive(
+                              "/analytical-tools/disease-prediction/heart-disease"
+                            )
+                              ? "bg-gray-200 text-gray-800"
+                              : "hover:bg-gray-200 transition-colors duration-500"
+                          }`}
+                        >
+                          <BsHeartPulse className="ml-[-5px]" />
+                          <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                            Heart Disease
+                          </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/analytical-tools/disease-prediction/diabetes"
+                          onClick={() =>
+                            handleLinkClick(
+                              "/analytical-tools/disease-prediction/diabetes"
+                            )
+                          }
+                          className={`flex items-center p-2 rounded-md ${
+                            isLinkActive(
+                              "/analytical-tools/disease-prediction/diabetes"
+                            )
+                              ? "bg-gray-200 text-gray-800"
+                              : "hover:bg-gray-200 transition-colors duration-500"
+                          }`}
+                        >
+                          <FiDroplet className="ml-[-5px]" />
+                          <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                            Diabetes
+                          </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/analytical-tools/disease-prediction/kidney-disease"
+                          onClick={() =>
+                            handleLinkClick(
+                              "/analytical-tools/disease-prediction/kidney-disease"
+                            )
+                          }
+                          className={`flex items-center p-2 rounded-md ${
+                            isLinkActive(
+                              "/analytical-tools/disease-prediction/kidney-disease"
+                            )
+                              ? "bg-gray-200 text-gray-800"
+                              : "hover:bg-gray-200 transition-colors duration-500"
+                          }`}
+                        >
+                          <GiKidneys className="ml-[-5px]" />
+                          <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                            Kidney Disease
+                          </span>
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/analytical-tools/disease-prediction/generic-disease"
+                          onClick={() =>
+                            handleLinkClick(
+                              "/analytical-tools/disease-prediction/generic-disease"
+                            )
+                          }
+                          className={`flex items-center p-2 rounded-md ${
+                            isLinkActive(
+                              "/analytical-tools/disease-prediction/generic-disease"
+                            )
+                              ? "bg-gray-200 text-gray-800"
+                              : "hover:bg-gray-200 transition-colors duration-500"
+                          }`}
+                        >
+                          <FiActivity className="ml-[-5px]" />
+                          <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                            Generic Disease
+                          </span>
+                        </Link>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <Link
+                      to="/analytical-tools/readmission-prediction"
+                      onClick={() =>
+                        handleLinkClick(
+                          "/analytical-tools/readmission-prediction"
+                        )
+                      }
+                      className={`flex items-center p-2 rounded-md ${
+                        isLinkActive("/analytical-tools/readmission-prediction")
+                          ? "bg-gray-200 text-gray-800"
+                          : "hover:bg-gray-200 transition-colors duration-500"
+                      }`}
+                    >
+                      <FiThermometer className="ml-[-5px]" />
+                      <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                        Readmission Prediction
+                      </span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/analytical-tools/treatment-outcome"
+                      onClick={() =>
+                        handleLinkClick("/analytical-tools/treatment-outcome")
+                      }
+                      className={`flex items-center p-2 rounded-md ${
+                        isLinkActive("/analytical-tools/treatment-outcome")
+                          ? "bg-gray-200 text-gray-800"
+                          : "hover:bg-gray-200 transition-colors duration-500"
+                      }`}
+                    >
+                      <FiMonitor className="ml-[-5px]" />
+                      <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                        Treatment Outcome
+                      </span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-              <hr className="mx-4 " />
+              <hr className="mx-4" />
               <li>
                 <Link
                   to="/settings"
