@@ -141,7 +141,7 @@
 
 
 
-#Heart disease prediction
+# Heart disease prediction
 
 # import pandas as pd 
 # import joblib 
@@ -194,40 +194,39 @@
 
 #Diabetes prediction
 
-# import pandas as pd
-# import joblib
+import pandas as pd
+import joblib
 
-# # Load the trained Random Forest model
-# rf_model = joblib.load('../Backend/Diabetes prediction/Models/rf_model.pkl')
+# Load the trained Random Forest model
+rf_model = joblib.load('../Backend/Diabetes prediction/Models/rf_model.pkl')
 
-# # Test data
-# test_data = pd.DataFrame({
-#     'Pregnancies': [3, 7, 4, 5, 0],
-#     'Glucose': [110, 155, 120, 140, 90],
-#     'BloodPressure': [70, 82, 76, 88, 66],
-#     'SkinThickness': [30, 35, 32, 40, 20],
-#     'Insulin': [0, 0, 0, 150, 0],
-#     'BMI': [28.6, 35.3, 29.0, 31.6, 24.4],
-#     'DiabetesPedigreeFunction': [0.256, 0.597, 0.349, 0.867, 0.315],
-#     'Age': [33, 50, 28, 45, 26]
-# })
+# Test data
+test_data = pd.DataFrame({
+    'Pregnancies': [3, 7, 4, 5, 0],
+    'Glucose': [110, 155, 120, 140, 90],
+    'BloodPressure': [70, 82, 76, 88, 66],
+    'SkinThickness': [30, 35, 32, 40, 20],
+    'Insulin': [0, 0, 0, 150, 0],
+    'BMI': [28.6, 35.3, 29.0, 31.6, 24.4],
+    'DiabetesPedigreeFunction': [0.256, 0.597, 0.349, 0.867, 0.315],
+    'Age': [33, 50, 28, 45, 26]
+})
 
 
-# # Select the relevant columns for prediction
-# columns_for_prediction = ['Pregnancies', 'Glucose', 'BloodPressure', 
-#                           'SkinThickness', 'Insulin', 'BMI', 
-#                           'DiabetesPedigreeFunction', 'Age']
+# Select the relevant columns for prediction
+columns_for_prediction = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 
+'DiabetesPedigreeFunction', 'Age']
 
-# # Extract the selected columns from the test data
-# test_data_selected = test_data[columns_for_prediction]
+# Extract the selected columns from the test data
+test_data_selected = test_data[columns_for_prediction]
 
-# # Make predictions using the loaded model
-# predictions = rf_model.predict(test_data_selected)
+# Make predictions using the loaded model
+predictions = rf_model.predict(test_data_selected)
 
-# # Print the predictions
-# print("Predictions:", predictions)
-# # Print the expected values
-# print("Expected values:", [0, 1, 0, 1, 0])
+# Print the predictions
+print("Predictions:", predictions)
+# Print the expected values
+print("Expected values:", [0, 1, 0, 1, 0])
 
 
 

@@ -9,7 +9,7 @@ const Header = () => {
           placeholder="Search..."
           className="bg-gray-200 text-gray-700 px-3 py-2 rounded-full focus:outline-none transition-colors duration-300 w-96"
         />
-        <button className="ml-2 bg-blue-500 text-white rounded-full p-2 hover:bg-blue-600 transition-colors duration-300">
+        <button className="ml-2 bg-teal-500 text-white rounded-full p-2 hover:bg-teal-600 transition-colors duration-300">
           <FaSearch />
         </button>
       </div>

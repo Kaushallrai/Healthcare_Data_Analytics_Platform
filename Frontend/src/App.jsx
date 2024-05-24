@@ -22,7 +22,7 @@ function App() {
             element={<PatientSummaryPage />}
           />
           <Route
-            path="/Analytical-Tools/Disease-Prediction/Heart-Disease-Prediction"
+            path="/analytical-tools/disease-prediction/heart-disease-prediction"
             element={<HeartDiseasePredictionPage />}
           />
         </Routes>

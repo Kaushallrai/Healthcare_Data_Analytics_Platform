@@ -75,6 +75,15 @@ const Sidebar = () => {
     "/statistics/overall-summary",
   ];
 
+  const analyticalToolsChildPaths = [
+    "/analytical-tools/disease-prediction/heart-disease-prediction",
+    "/analytical-tools/disease-prediction/diabetes-prediction",
+    "/analytical-tools/disease-prediction/kidney-disease-prediction",
+    "/analytical-tools/disease-prediction/generic-disease-prediction",
+
+    "/analytical-tools/readmission-prediction",
+    "/analytical-tools/treatment-outcome",
+  ];
   return (
     <div
       className={`bg-white text-gray-600 flex fixed ${
@@ -107,7 +116,7 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isLinkActive("/")
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
                   }`}
                 >
                   <FiHome className="ml-2" />
@@ -123,7 +132,7 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isLinkActive("/patient-management")
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-teal-500 transition-colors duration-300 hover:text-white"
                   }`}
                 >
                   <FiUsers className="ml-2" />
@@ -141,7 +150,7 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isParentLinkActive("/statistics", statisticsChildPaths)
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
                   }`}
                 >
                   <FiBarChart2 className="ml-2" />
@@ -168,7 +177,7 @@ const Sidebar = () => {
                       className={`flex items-center p-2 rounded-md my-2 ${
                         isLinkActive("/statistics/patient-summary")
                           ? "bg-gray-200 text-gray-800"
-                          : "hover:bg-gray-200 transition-colors duration-500"
+                          : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                       }`}
                     >
                       <FiUser className="ml-2" />
@@ -186,7 +195,7 @@ const Sidebar = () => {
                       className={`flex items-center p-2 rounded-md ${
                         isLinkActive("/statistics/overall-summary")
                           ? "bg-gray-200 text-gray-800"
-                          : "hover:bg-gray-200 transition-colors duration-500"
+                          : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                       }`}
                     >
                       <FiPieChart className="ml-2" />
@@ -204,7 +213,7 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isLinkActive("/report")
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-500"
+                      : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                   }`}
                 >
                   <FiFileText className="ml-2" />
@@ -225,15 +234,15 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isParentLinkActive("/analytical-tools", [
                       "/analytical-tools/disease-prediction",
-                      "/analytical-tools/disease-prediction/heart-disease",
-                      "/analytical-tools/disease-prediction/diabetes",
-                      "/analytical-tools/disease-prediction/kidney-disease",
-                      "/analytical-tools/disease-prediction/generic-disease",
+                      "/analytical-tools/disease-prediction/heart-disease-prediction",
+                      "/analytical-tools/disease-prediction/diabetes-prediction",
+                      "/analytical-tools/disease-prediction/kidney-disease-prediction",
+                      "/analytical-tools/disease-prediction/generic-disease-prediction",
                       "/analytical-tools/readmission-prediction",
                       "/analytical-tools/treatment-outcome",
                     ])
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
                   }`}
                 >
                   <FiBarChart className="ml-2" />
@@ -264,14 +273,14 @@ const Sidebar = () => {
                         isParentLinkActive(
                           "/analytical-tools/disease-prediction",
                           [
-                            "/analytical-tools/disease-prediction/heart-disease",
-                            "/analytical-tools/disease-prediction/diabetes",
-                            "/analytical-tools/disease-prediction/kidney-disease",
-                            "/analytical-tools/disease-prediction/generic-disease",
+                            "/analytical-tools/disease-prediction/heart-disease-prediction",
+                            "/analytical-tools/disease-prediction/diabetes-prediction",
+                            "/analytical-tools/disease-prediction/kidney-disease-prediction",
+                            "/analytical-tools/disease-prediction/generic-disease-prediction",
                           ]
                         )
                           ? "bg-gray-200 text-gray-800"
-                          : "hover:bg-gray-200 transition-colors duration-300"
+                          : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
                       }`}
                     >
                       <FiHeart className="ml-[-5px]" />
@@ -294,15 +303,15 @@ const Sidebar = () => {
                           to="/analytical-tools/disease-prediction/heart-disease"
                           onClick={() =>
                             handleLinkClick(
-                              "/analytical-tools/disease-prediction/heart-disease"
+                              "/analytical-tools/disease-prediction/heart-disease-prediction"
                             )
                           }
                           className={`flex items-center p-2 rounded-md ${
                             isLinkActive(
-                              "/analytical-tools/disease-prediction/heart-disease"
+                              "/analytical-tools/disease-prediction/heart-disease-prediction"
                             )
                               ? "bg-gray-200 text-gray-800"
-                              : "hover:bg-gray-200 transition-colors duration-500"
+                              : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                           }`}
                         >
                           <BsHeartPulse className="ml-[-5px]" />
@@ -316,15 +325,15 @@ const Sidebar = () => {
                           to="/analytical-tools/disease-prediction/diabetes"
                           onClick={() =>
                             handleLinkClick(
-                              "/analytical-tools/disease-prediction/diabetes"
+                              "/analytical-tools/disease-prediction/diabetes-prediction"
                             )
                           }
                           className={`flex items-center p-2 rounded-md ${
                             isLinkActive(
-                              "/analytical-tools/disease-prediction/diabetes"
+                              "/analytical-tools/disease-prediction/diabetes-prediction"
                             )
                               ? "bg-gray-200 text-gray-800"
-                              : "hover:bg-gray-200 transition-colors duration-500"
+                              : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                           }`}
                         >
                           <FiDroplet className="ml-[-5px]" />
@@ -338,15 +347,15 @@ const Sidebar = () => {
                           to="/analytical-tools/disease-prediction/kidney-disease"
                           onClick={() =>
                             handleLinkClick(
-                              "/analytical-tools/disease-prediction/kidney-disease"
+                              "/analytical-tools/disease-prediction/kidney-disease-prediction"
                             )
                           }
                           className={`flex items-center p-2 rounded-md ${
                             isLinkActive(
-                              "/analytical-tools/disease-prediction/kidney-disease"
+                              "/analytical-tools/disease-prediction/kidney-disease-prediction"
                             )
                               ? "bg-gray-200 text-gray-800"
-                              : "hover:bg-gray-200 transition-colors duration-500"
+                              : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                           }`}
                         >
                           <GiKidneys className="ml-[-5px]" />
@@ -357,18 +366,18 @@ const Sidebar = () => {
                       </li>
                       <li>
                         <Link
-                          to="/analytical-tools/disease-prediction/generic-disease"
+                          to="/analytical-tools/disease-prediction/generic-disease-prediction"
                           onClick={() =>
                             handleLinkClick(
-                              "/analytical-tools/disease-prediction/generic-disease"
+                              "/analytical-tools/disease-prediction/generic-disease-prediction"
                             )
                           }
                           className={`flex items-center p-2 rounded-md ${
                             isLinkActive(
-                              "/analytical-tools/disease-prediction/generic-disease"
+                              "/analytical-tools/disease-prediction/generic-disease-prediction"
                             )
                               ? "bg-gray-200 text-gray-800"
-                              : "hover:bg-gray-200 transition-colors duration-500"
+                              : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                           }`}
                         >
                           <FiActivity className="ml-[-5px]" />
@@ -390,7 +399,7 @@ const Sidebar = () => {
                       className={`flex items-center p-2 rounded-md ${
                         isLinkActive("/analytical-tools/readmission-prediction")
                           ? "bg-gray-200 text-gray-800"
-                          : "hover:bg-gray-200 transition-colors duration-500"
+                          : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                       }`}
                     >
                       <FiThermometer className="ml-[-5px]" />
@@ -408,7 +417,7 @@ const Sidebar = () => {
                       className={`flex items-center p-2 rounded-md ${
                         isLinkActive("/analytical-tools/treatment-outcome")
                           ? "bg-gray-200 text-gray-800"
-                          : "hover:bg-gray-200 transition-colors duration-500"
+                          : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                       }`}
                     >
                       <FiMonitor className="ml-[-5px]" />
@@ -427,7 +436,7 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isLinkActive("/settings")
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
                   }`}
                 >
                   <FiSettings className="ml-2" />
@@ -441,7 +450,7 @@ const Sidebar = () => {
                   className={`flex items-center p-2 rounded-md ${
                     isLinkActive("/logout")
                       ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-gray-200 transition-colors duration-300"
+                      : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
                   }`}
                 >
                   <FiLogOut className="ml-2" />
