@@ -22,6 +22,78 @@ cursor = db.cursor(dictionary=True)
 
 random_forest_model = joblib.load('../Backend/Heart disease prediction/Main/Models/random_forest_model.pkl')
 
+@app.route('/api/login', methods=['POST'])
+def login():
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password')
+    
+    # Fetch user from database
+    cursor = db.cursor(dictionary=True)
+    query = "SELECT userId, role FROM users WHERE username = %s AND password = %s"
+    cursor.execute(query, (username, password))
+    user = cursor.fetchone()
+
+    if user:
+        # Ensure 'userId' and 'role' keys are present
+        user_id = user.get('userId')
+        role = user.get('role')
+        if user_id is None or role is None:
+            return jsonify({'error': 'User data is incomplete'}), 500
+        
+        response = {
+            'userId': user_id,
+            'role': role
+        }
+        return jsonify(response), 200
+    else:
+        return jsonify({'error': 'Invalid credentials'}), 401
+
+@app.route('/api/account-settings/<int:user_id>', methods=['GET'])
+def get_account_settings(user_id):
+    try:
+        cursor = db.cursor(dictionary=True)
+        query = "SELECT * FROM users WHERE userId = %s"
+        cursor.execute(query, (user_id,))
+        user = cursor.fetchone()
+        cursor.close()
+        if user:
+            return jsonify(user)
+        else:
+            return jsonify({'error': 'User not found'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/api/account-settings/<int:user_id>', methods=['PUT'])
+def update_account_settings(user_id):
+    data = request.get_json()
+    try:
+        cursor = db.cursor()
+        query = """
+            UPDATE users
+            SET name = %s, dateOfBirth = %s, age = %s, gender = %s, email = %s, phone = %s, address = %s, username = %s, password = %s, role = %s
+            WHERE userId = %s
+        """
+        values = (
+            data.get('name'),
+            data.get('dateOfBirth'),
+            data.get('age'),
+            data.get('gender'),
+            data.get('email'),
+            data.get('phone'),
+            data.get('address'),
+            data.get('username'),
+            data.get('password'),
+            data.get('role'),
+            user_id
+        )
+        cursor.execute(query, values)
+        db.commit()
+        cursor.close()
+        return jsonify({'message': 'Account settings updated successfully'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
 # Route to check if patient data has been fetched
 @app.route('/check_patient_data')
 def check_patient_data():
@@ -52,6 +124,7 @@ def get_users():
     cursor.close()
     return jsonify(users)
 
+
 # Route for getting a single patient by ID
 @app.route('/api/patients/<int:patient_id>', methods=['GET'])
 def get_patient(patient_id):
@@ -70,9 +143,10 @@ def get_patient(patient_id):
 def add_patient():
     data = request.get_json()
     admission_date = data.get('admission_date', None)
+
     cursor = db.cursor()
-    query = "INSERT INTO patients (name, age, gender, email, phone, address, diagnosis, admission_date, dob) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"
-    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'], data['diagnosis'], data['admission_date'], data['dob'])
+    query = "INSERT INTO patient (name, age, gender, email, phone, address, admission_date, dob) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (data['name'], data['age'], data['gender'], data['email'], data['phone'], data['address'],  data['admission_date'], data['dateOfBirth'])
     cursor.execute(query, values)
     db.commit()
     patient_id = cursor.lastrowid
