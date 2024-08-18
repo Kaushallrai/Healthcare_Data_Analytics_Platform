@@ -5,6 +5,7 @@ import Dashboard from "./page/Dashboard";
 import Demo from "./page/demo";
 import PatientSummaryPage from "./page/Statistics/Patient-stats/PatientSummaryPage";
 import HeartDiseasePredictionPage from "./page/Analytical-Tools/Disease-Prediction/Heart-Disease/HeartDiseasePredictionPage";
+import SettingsPage from "./page/Settings/SettingsPage";
 
 function App() {
   return (
@@ -25,6 +26,11 @@ function App() {
             path="/analytical-tools/disease-prediction/heart-disease-prediction"
             element={<HeartDiseasePredictionPage />}
           />
+          <Route
+            path="/analytical-tools/disease-prediction/heart-disease-prediction/:patientId"
+            element={<HeartDiseasePredictionPage />}
+          />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
       </div>
     </Router>

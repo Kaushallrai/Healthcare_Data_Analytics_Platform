@@ -9,7 +9,7 @@ import PatientSummaryTable from "./PatientSummaryTable";
 const PatientSummaryPage = () => {
   const pageTitle = "Statistics";
   const [activeTab, setActiveTab] = useState("table");
-  const [showViewPatientStats, setShowViewPatientStats] = useState(false);
+  const [showViewPatientStats, setShowViewPatientStats] = useState(true);
 
   const handleTabChange = (tab) => {
     setActiveTab(tab);

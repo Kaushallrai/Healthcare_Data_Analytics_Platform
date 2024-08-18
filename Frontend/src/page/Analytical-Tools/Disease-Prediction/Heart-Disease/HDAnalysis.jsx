@@ -1,7 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { FaHeartbeat } from "react-icons/fa";
 import InsightTable from "./components/InsightTable";
+import PatientDropdown from "../../../../components/PatientDropdown";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 const HDAnalysis = () => {
+  const { patientId } = useParams();
+  const [selectedPatient, setSelectedPatient] = useState(null);
+  const [patientDetails, setPatientDetails] = useState(null);
+
+  useEffect(() => {
+    if (selectedPatient && selectedPatient.patient_id) {
+      fetchPatientDetails();
+    }
+  }, [selectedPatient]);
+
+  const fetchPatientDetails = async () => {
+    try {
+      const response = await fetch(
+        `/api/patients/${selectedPatient.patient_id}`
+      );
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      setPatientDetails(data);
+    } catch (error) {
+      console.error("Error fetching patient details:", error);
+      setPatientDetails(null); // Clear patientDetails if there's an error
+    }
+  };
+
   const [formData, setFormData] = useState({
     age: "",
     sex: "",
@@ -18,6 +48,24 @@ const HDAnalysis = () => {
     thal: "",
   });
 
+  const [prediction, setPrediction] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchPredictions();
+  }, [patientId]);
+
+  const fetchPredictions = async () => {
+    try {
+      const response = await axios.get(`/api/predictions/${patientId}`);
+      const data = response.data.data;
+      console.log(data);
+      setPrediction(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -25,50 +73,78 @@ const HDAnalysis = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic, such as sending data to backend
-    console.log(formData);
+    setLoading(true);
+    console.log("Form Data:", formData);
+
+    try {
+      const response = await fetch(`/api/predict-heart-disease/${patientId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setPrediction(result);
+    } catch (error) {
+      console.error("Error making prediction:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div>
       <div className=" bg-gray-100 flex px-4 justify-between">
         <div className="flex flex-col gap-8">
-          <div className="bg-white p-8 rounded-md shadow-md ">
+          <div className="bg-white p-8 rounded-md shadow-md mt-4">
+            <PatientDropdown onPatientSelect={setSelectedPatient} />
+          </div>
+          <div className="bg-white p-8 rounded-md shadow-md mt-4">
             <p className="text-xl font-medium mb-6 mt-[-12px]">Patient</p>
-            <div className="flex justify-between ">
-              <div className="flex flex-col mr-2 gap-4">
-                <div className="flex font-medium">
-                  <p className="text-gray-500">Name&nbsp;: &nbsp; </p>
-                  <p>Kaushal Rai</p>
+            {patientDetails ? (
+              <div className="flex justify-between ">
+                <div className="flex flex-col mr-2 gap-4">
+                  <div className="flex font-medium">
+                    <p className="text-gray-500">Name&nbsp;: &nbsp; </p>
+                    <p>{patientDetails.name}</p>
+                  </div>
+                  <div className="flex font-medium">
+                    <p className="text-gray-500">Blood Group&nbsp;: &nbsp;</p>
+                    <p>{patientDetails.blood_group}</p>
+                  </div>
                 </div>
-                <div className="flex font-medium">
-                  <p className="text-gray-500">Blood Group&nbsp;: &nbsp;</p>
-                  <p>A+</p>
+                <div className="flex flex-col mr-2 gap-4">
+                  <div className="flex font-medium">
+                    <p className="text-gray-500">Gender&nbsp;: &nbsp; </p>
+                    <p>{patientDetails.gender}</p>
+                  </div>
+                  <div className="flex font-medium">
+                    <p className="text-gray-500">Height&nbsp;: &nbsp;</p>
+                    <p>{patientDetails.height}cm</p>
+                  </div>
+                </div>
+                <div className="flex flex-col mr-2 gap-4">
+                  <div className="flex font-medium">
+                    <p className="text-gray-500">Age&nbsp;: &nbsp; </p>
+                    <p>{patientDetails.age}</p>
+                  </div>
+                  <div className="flex font-medium">
+                    <p className="text-gray-500">Weight&nbsp;: &nbsp;</p>
+                    <p>{patientDetails.weight}Kg</p>
+                  </div>
                 </div>
               </div>
-              <div className="flex flex-col mr-2 gap-4">
-                <div className="flex font-medium">
-                  <p className="text-gray-500">Gender&nbsp;: &nbsp; </p>
-                  <p>Male</p>
-                </div>
-                <div className="flex font-medium">
-                  <p className="text-gray-500">Height&nbsp;: &nbsp;</p>
-                  <p>170cm</p>
-                </div>
-              </div>
-              <div className="flex flex-col mr-2 gap-4">
-                <div className="flex font-medium">
-                  <p className="text-gray-500">Age&nbsp;: &nbsp; </p>
-                  <p>21</p>
-                </div>
-                <div className="flex font-medium">
-                  <p className="text-gray-500">Weight&nbsp;: &nbsp;</p>
-                  <p>60Kg</p>
-                </div>
-              </div>
-            </div>
+            ) : (
+              <p>No patient selected</p>
+            )}
           </div>
           <div className="bg-white p-8 rounded-md shadow-md">
             <p className="text-center text-gray-600 mb-6">
@@ -301,6 +377,53 @@ const HDAnalysis = () => {
               </button>
             </form>
           </div>
+          <div>
+            {loading && (
+              <div className="flex justify-center items-center w-full h-[350px] bg-gray-200 rounded-md shadow-md">
+                <p className="text-gray-700">Loading...</p>
+              </div>
+            )}
+
+            {!loading && prediction && (
+              <div className="w-full h-[350px] rounded-md shadow-sm bg-gradient-to-r from-orange-800 to-red-500 p-6 flex flex-col">
+                <div className="flex items-center gap-3">
+                  <div className="bg-orange-900 flex items-center justify-center w-16 h-16 rounded-full">
+                    <FaHeartbeat className="text-white" size={36} />
+                  </div>
+                  <span className="text-lg font-medium text-white">
+                    Heart Disease
+                  </span>
+                </div>
+                <p className="text-white text-lg my-4 text-center">
+                  Chronic conditions
+                </p>
+                <div className="flex items-center justify-around mx-8">
+                  <div className="text-white flex flex-col gap-2">
+                    <span className="font-medium text-xl">
+                      {prediction.lastTime}%
+                    </span>
+                    <span className="text-xs">Last time</span>
+                  </div>
+                  <div className="border-r-2 h-12">&nbsp;</div>
+                  <div className="text-white flex flex-col gap-2">
+                    <span className="font-medium text-xl">
+                      {prediction.recently}%
+                    </span>
+                    <span className="text-xs">Recently</span>
+                  </div>
+                </div>
+                <p className="text-white font-medium text-base my-7 text-center">
+                  {prediction.prob < 50
+                    ? "Low Probability of Heart Disease"
+                    : "High Probability of Heart Disease"}
+                </p>
+                <button className="bg-white text-red-600 px-4 py-2 rounded-md shadow-md hover:bg-red-600 hover:text-white transition duration-300">
+                  View Full Report
+                </button>
+              </div>
+            )}
+          </div>
+          \
         </div>
 
         <div className="w-1/3">

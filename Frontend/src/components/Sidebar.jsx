@@ -300,7 +300,7 @@ const Sidebar = () => {
                     >
                       <li>
                         <Link
-                          to="/analytical-tools/disease-prediction/heart-disease"
+                          to="/analytical-tools/disease-prediction/heart-disease-prediction"
                           onClick={() =>
                             handleLinkClick(
                               "/analytical-tools/disease-prediction/heart-disease-prediction"
@@ -364,50 +364,9 @@ const Sidebar = () => {
                           </span>
                         </Link>
                       </li>
-                      <li>
-                        <Link
-                          to="/analytical-tools/disease-prediction/generic-disease-prediction"
-                          onClick={() =>
-                            handleLinkClick(
-                              "/analytical-tools/disease-prediction/generic-disease-prediction"
-                            )
-                          }
-                          className={`flex items-center p-2 rounded-md ${
-                            isLinkActive(
-                              "/analytical-tools/disease-prediction/generic-disease-prediction"
-                            )
-                              ? "bg-gray-200 text-gray-800"
-                              : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
-                          }`}
-                        >
-                          <FiActivity className="ml-[-5px]" />
-                          <span className={`${isOpen ? "ml-2" : "hidden"}`}>
-                            Generic Disease
-                          </span>
-                        </Link>
-                      </li>
                     </ul>
                   </li>
-                  <li>
-                    <Link
-                      to="/analytical-tools/readmission-prediction"
-                      onClick={() =>
-                        handleLinkClick(
-                          "/analytical-tools/readmission-prediction"
-                        )
-                      }
-                      className={`flex items-center p-2 rounded-md ${
-                        isLinkActive("/analytical-tools/readmission-prediction")
-                          ? "bg-gray-200 text-gray-800"
-                          : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
-                      }`}
-                    >
-                      <FiThermometer className="ml-[-5px]" />
-                      <span className={`${isOpen ? "ml-2" : "hidden"}`}>
-                        Readmission Prediction
-                      </span>
-                    </Link>
-                  </li>
+
                   <li>
                     <Link
                       to="/analytical-tools/treatment-outcome"

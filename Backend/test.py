@@ -143,90 +143,90 @@
 
 # Heart disease prediction
 
-# import pandas as pd 
-# import joblib 
-# from sklearn.metrics import accuracy_score, confusion_matrix
+import pandas as pd 
+import joblib 
+from sklearn.metrics import accuracy_score, confusion_matrix
 
-# # Load the trained model
-# random_forest_model = joblib.load('../Backend/Heart disease prediction/Models/random_forest_model.pkl')
+# Load the trained model
+random_forest_model = joblib.load('../Backend/Heart disease prediction/Main/Models/random_forest_model.pkl')
 
-# # Get the feature names used in the model
-# feature_names = random_forest_model.feature_names_in_
-# print("Features used in the model:", feature_names)
+# Get the feature names used in the model
+feature_names = random_forest_model.feature_names_in_
+print("Features used in the model:", feature_names)
 
-# # Load the test data
-# test_data = pd.DataFrame({
-#     'age': [55, 63, 58, 60, 48],
-#     'sex ': [0, 1, 1, 0, 1],
-#     'chest pain type': [3, 4, 2, 1, 4],
-#     'resting blood pressure': [140, 145, 120, 130, 130],
-#     'serum cholestoral': [260, 233, 394, 264, 275],
-#     'fasting blood sugar': [0, 0, 0, 1, 0],
-#     'resting electrocardiographic results': [0, 2, 2, 2, 0],
-#     'max heart rate': [150, 150, 150, 120, 180],
-#     'exercise induced angina': [0, 1, 0, 1, 0],
-#     'oldpeak': [0.8, 2.3, 1.8, 3.0, 0.2],
-#     'ST segment': [1, 0, 2, 2, 2],
-#     'major vessels': [0, 0, 2, 1, 0],
-#     'thal': [3, 3, 7, 3, 3]
-# })
+# Load the test data
+test_data = pd.DataFrame({
+    'age': [55, 63, 58, 60, 48],
+    'sex ': [0, 1, 1, 0, 1],
+    'chest pain type': [3, 4, 2, 1, 4],
+    'resting blood pressure': [140, 145, 120, 130, 130],
+    'serum cholestoral': [260, 233, 394, 264, 275],
+    'fasting blood sugar': [0, 0, 0, 1, 0],
+    'resting electrocardiographic results': [0, 2, 2, 2, 0],
+    'max heart rate': [150, 150, 150, 120, 180],
+    'exercise induced angina': [0, 1, 0, 1, 0],
+    'oldpeak': [0.8, 2.3, 1.8, 3.0, 0.2],
+    'ST segment': [1, 0, 2, 2, 2],
+    'major vessels': [0, 0, 2, 1, 0],
+    'thal': [3, 3, 7, 3, 3]
+})
 
-# # Selecting relevant features for prediction
-# test_data_selected = test_data[feature_names]
+# Selecting relevant features for prediction
+test_data_selected = test_data[feature_names]
 
-# # Make predictions using the model
-# predictions = random_forest_model.predict(test_data_selected)
+# Make predictions using the model
+predictions = random_forest_model.predict(test_data_selected)
 
-# probs = random_forest_model.predict_proba(test_data_selected)[:, 1]*100
+probs = random_forest_model.predict_proba(test_data_selected)[:, 1]*100
 
-# print("Predictions:", predictions) 
-# print("Probabilities:", probs)
+print("Predictions:", predictions) 
+print("Probabilities:", probs)
 
-# expected_values = [0, 0, 1, 1, 0] 
-# print("Expected values:", expected_values)
+expected_values = [0, 0, 1, 1, 0] 
+print("Expected values:", expected_values)
 
-# accuracy = accuracy_score(expected_values, predictions) 
-# conf_matrix = confusion_matrix(expected_values, predictions) 
-# print("Accuracy:", accuracy) 
-# print("Confusion matrix:\n", conf_matrix)
+accuracy = accuracy_score(expected_values, predictions) 
+conf_matrix = confusion_matrix(expected_values, predictions) 
+print("Accuracy:", accuracy) 
+print("Confusion matrix:\n", conf_matrix)
 
 
 
 #Diabetes prediction
 
-import pandas as pd
-import joblib
+# import pandas as pd
+# import joblib
 
-# Load the trained Random Forest model
-rf_model = joblib.load('../Backend/Diabetes prediction/Models/rf_model.pkl')
+# # Load the trained Random Forest model
+# rf_model = joblib.load('../Backend/Diabetes prediction/Models/rf_model.pkl')
 
-# Test data
-test_data = pd.DataFrame({
-    'Pregnancies': [3, 7, 4, 5, 0],
-    'Glucose': [110, 155, 120, 140, 90],
-    'BloodPressure': [70, 82, 76, 88, 66],
-    'SkinThickness': [30, 35, 32, 40, 20],
-    'Insulin': [0, 0, 0, 150, 0],
-    'BMI': [28.6, 35.3, 29.0, 31.6, 24.4],
-    'DiabetesPedigreeFunction': [0.256, 0.597, 0.349, 0.867, 0.315],
-    'Age': [33, 50, 28, 45, 26]
-})
+# # Test data
+# test_data = pd.DataFrame({
+#     'Pregnancies': [3, 7, 4, 5, 0],
+#     'Glucose': [110, 155, 120, 140, 90],
+#     'BloodPressure': [70, 82, 76, 88, 66],
+#     'SkinThickness': [30, 35, 32, 40, 20],
+#     'Insulin': [0, 0, 0, 150, 0],
+#     'BMI': [28.6, 35.3, 29.0, 31.6, 24.4],
+#     'DiabetesPedigreeFunction': [0.256, 0.597, 0.349, 0.867, 0.315],
+#     'Age': [33, 50, 28, 45, 26]
+# })
 
 
-# Select the relevant columns for prediction
-columns_for_prediction = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 
-'DiabetesPedigreeFunction', 'Age']
+# # Select the relevant columns for prediction
+# columns_for_prediction = ['Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness', 'Insulin', 'BMI', 
+# 'DiabetesPedigreeFunction', 'Age']
 
-# Extract the selected columns from the test data
-test_data_selected = test_data[columns_for_prediction]
+# # Extract the selected columns from the test data
+# test_data_selected = test_data[columns_for_prediction]
 
-# Make predictions using the loaded model
-predictions = rf_model.predict(test_data_selected)
+# # Make predictions using the loaded model
+# predictions = rf_model.predict(test_data_selected)
 
-# Print the predictions
-print("Predictions:", predictions)
-# Print the expected values
-print("Expected values:", [0, 1, 0, 1, 0])
+# # Print the predictions
+# print("Predictions:", predictions)
+# # Print the expected values
+# print("Expected values:", [0, 1, 0, 1, 0])
 
 
 
