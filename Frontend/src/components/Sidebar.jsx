@@ -21,8 +21,15 @@ import {
 } from "react-icons/fi";
 import { BsHeartPulse } from "react-icons/bs";
 import { GiKidneys } from "react-icons/gi";
+import { useNavigate } from "react-router-dom";
+import Modal from "./Modal";
+import { useAuth } from "../AuthContext";
 
 const Sidebar = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(true);
   const [activeLink, setActiveLink] = useState("/");
   const [statisticsDropdown, setStatisticsDropdown] = useState(false);
@@ -84,6 +91,11 @@ const Sidebar = () => {
     "/analytical-tools/readmission-prediction",
     "/analytical-tools/treatment-outcome",
   ];
+
+  const handleLogout = () => {
+    logout();
+    setIsModalOpen(false);
+  };
   return (
     <div
       className={`bg-white text-gray-600 flex fixed ${
@@ -403,20 +415,20 @@ const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/logout"
-                  onClick={() => handleLinkClick("/logout")}
-                  className={`flex items-center p-2 rounded-md ${
-                    isLinkActive("/logout")
-                      ? "bg-gray-200 text-gray-800"
-                      : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
-                  }`}
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="flex items-center p-2 rounded-md hover:bg-teal-500 hover:text-white transition-colors duration-300 w-full"
                 >
                   <FiLogOut className="ml-2" />
-                  <span className={`${isOpen ? "ml-2" : "hidden"}`}>
-                    Logout
-                  </span>
-                </Link>
+                  <span className="ml-2">Logout</span>
+                </button>
+                <Modal
+                  isOpen={isModalOpen}
+                  onClose={() => setIsModalOpen(false)}
+                  onConfirm={() => {
+                    handleLogout();
+                  }}
+                />
               </li>
             </ul>
           </nav>

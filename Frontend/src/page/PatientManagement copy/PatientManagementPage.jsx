@@ -1,8 +1,9 @@
-import Sidebar from "../components/Sidebar";
-import Header from "../components/Header";
+import Sidebar from "../../components/Sidebar";
+import Header from "../../components/Header";
+import PatientManagement from "./PatientManagement";
 
-const SettingsPage = () => {
-  const pageTitle = "Settings";
+const PatientManagementPage = () => {
+  const pageTitle = "Patient Management";
 
   return (
     <div className=" h-screen">
@@ -14,12 +15,13 @@ const SettingsPage = () => {
           id="mainpage"
         >
           <div className="flex items-center justify-between w-full">
-            <span className="text-2xl font-semibold"> Dashboard</span>
+            <span className="text-2xl font-semibold">{pageTitle}</span>
           </div>
+          <PatientManagement />
         </div>
       </main>
     </div>
   );
 };
 
-export default SettingsPage;
+export default PatientManagementPage;
