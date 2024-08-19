@@ -3,7 +3,7 @@ import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
 import { useParams } from "react-router-dom";
 
-const ViewPatientPage = () => {
+const ViewUserPage = () => {
   const { patientId } = useParams();
   const pageTitle = "Patient Management";
   const [patientDetails, setPatientDetails] = useState(null);
@@ -179,4 +179,4 @@ const ViewPatientPage = () => {
   );
 };
 
-export default ViewPatientPage;
+export default ViewUserPage;

@@ -89,7 +89,6 @@ const Sidebar = () => {
     "/analytical-tools/disease-prediction/generic-disease-prediction",
 
     "/analytical-tools/readmission-prediction",
-    "/analytical-tools/treatment-outcome",
   ];
 
   const handleLogout = () => {
@@ -150,6 +149,22 @@ const Sidebar = () => {
                   <FiUsers className="ml-2" />
                   <span className={`${isOpen ? "ml-2" : "hidden"}`}>
                     Patient Management
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/user-management"
+                  onClick={() => handleLinkClick("/user-management")}
+                  className={`flex items-center p-2 rounded-md ${
+                    isLinkActive("/user-management")
+                      ? "bg-gray-200 text-gray-800"
+                      : "hover:bg-teal-500 transition-colors duration-300 hover:text-white"
+                  }`}
+                >
+                  <FiUsers className="ml-2" />
+                  <span className={`${isOpen ? "ml-2" : "hidden"}`}>
+                    User Management
                   </span>
                 </Link>
               </li>
@@ -251,7 +266,6 @@ const Sidebar = () => {
                       "/analytical-tools/disease-prediction/kidney-disease-prediction",
                       "/analytical-tools/disease-prediction/generic-disease-prediction",
                       "/analytical-tools/readmission-prediction",
-                      "/analytical-tools/treatment-outcome",
                     ])
                       ? "bg-gray-200 text-gray-800"
                       : "hover:bg-teal-500 hover:text-white transition-colors duration-300"
@@ -381,19 +395,21 @@ const Sidebar = () => {
 
                   <li>
                     <Link
-                      to="/analytical-tools/treatment-outcome"
+                      to="/analytical-tools/read"
                       onClick={() =>
-                        handleLinkClick("/analytical-tools/treatment-outcome")
+                        handleLinkClick(
+                          "/analytical-tools/readmission-prediction"
+                        )
                       }
                       className={`flex items-center p-2 rounded-md ${
-                        isLinkActive("/analytical-tools/treatment-outcome")
+                        isLinkActive("/analytical-tools/readmission-prediction")
                           ? "bg-gray-200 text-gray-800"
                           : "hover:bg-teal-500 hover:text-white transition-colors duration-500"
                       }`}
                     >
                       <FiMonitor className="ml-[-5px]" />
                       <span className={`${isOpen ? "ml-2" : "hidden"}`}>
-                        Treatment Outcome
+                        Readmission Prediction
                       </span>
                     </Link>
                   </li>

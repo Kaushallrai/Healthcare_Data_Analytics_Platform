@@ -10,19 +10,19 @@ const ViewPatientPage = () => {
   const diseases = ["Heart Disease", "Kidney Disease", "Diabetes Disease"];
   const tableData = [
     {
-      date: "2024-08-01",
+      date: "2023-05-01",
       doctor: "Dr. Smith",
       diagnosis: "Heart Disease",
       risk: "High",
     },
     {
-      date: "2024-08-05",
+      date: "2023-04-05",
       doctor: "Dr. Johnson",
       diagnosis: "Kidney Disease",
       risk: "Low",
     },
     {
-      date: "2024-08-10",
+      date: "2023-03-10",
       doctor: "Dr. Lee",
       diagnosis: "Heart Disease",
       risk: "High",
@@ -61,7 +61,7 @@ const ViewPatientPage = () => {
           <div className="flex gap-6">
             <div className="bg-white p-8 rounded-md shadow-md mt-2 w-1/2">
               <p className="text-xl font-medium mb-6 mt-[-12px]">
-                Patient No:&nbsp;{patientId}
+                Patient No :&nbsp;{patientId}
               </p>
 
               <hr className="my-6" />
@@ -114,7 +114,7 @@ const ViewPatientPage = () => {
                       {disease}
                     </p>
                     <button className="bg-teal-500 text-sm  text-white px-4 py-2 rounded-md hover:bg-teal-600 transition-colors">
-                      View Report
+                      View Full Report
                     </button>
                   </div>
                 ))}
@@ -140,6 +140,9 @@ const ViewPatientPage = () => {
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Risk
                         </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Report
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -164,6 +167,11 @@ const ViewPatientPage = () => {
                             >
                               {item.risk}
                             </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm">
+                            <button className="bg-teal-500 text-sm  text-white px-4 py-2 rounded-md hover:bg-teal-600 transition-colors">
+                              View Report
+                            </button>
                           </td>
                         </tr>
                       ))}

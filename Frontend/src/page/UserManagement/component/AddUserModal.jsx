@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from "react";
 
-const AddPatientModal = ({ show, onClose, onSubmit }) => {
+const AddUserModal = ({ show, onClose, onSubmit }) => {
   const [name, setName] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [age, setAge] = useState("");
@@ -240,4 +240,4 @@ const AddPatientModal = ({ show, onClose, onSubmit }) => {
     </>
   );
 };
-export default AddPatientModal;
+export default AddUserModal;

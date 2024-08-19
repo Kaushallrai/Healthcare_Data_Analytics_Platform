@@ -7,8 +7,9 @@ import PatientSummaryPage from "./page/Statistics/Patient-stats/PatientSummaryPa
 import HeartDiseasePredictionPage from "./page/Analytical-Tools/Disease-Prediction/Heart-Disease/HeartDiseasePredictionPage";
 import SettingsPage from "./page/Settings/SettingsPage";
 import Login from "./page/Login/Login";
-import ViewPatientPage from "./page/PatientManagement/ViewPatientPage";
 import UserManagementPage from "./page/UserManagement/UserManagementPage";
+import ViewPatientPage from "./page/PatientManagement/ViewPatientPage";
+import ReportPage from "./page/Report/Patient-stats/ReportPage";
 
 function App() {
   return (
@@ -27,6 +28,8 @@ function App() {
           path="/statistics/patient-summary"
           element={<PatientSummaryPage />}
         />
+        <Route path="/report/:patientId" element={<ReportPage />} />
+        <Route path="/report" element={<ReportPage />} />
         <Route
           path="/analytical-tools/disease-prediction/heart-disease-prediction"
           element={<HeartDiseasePredictionPage />}

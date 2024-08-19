@@ -124,6 +124,17 @@ def get_users():
     cursor.close()
     return jsonify(users)
 
+# Route for deleting a user
+@app.route('/api/users/<int:userId>', methods=['DELETE'])
+def user(userId):
+    cursor = db.cursor()
+    query = "DELETE FROM users WHERE userId = %s"
+    values = (userId,)
+    cursor.execute(query, values)
+    db.commit()
+    cursor.close()
+    return jsonify({'message': 'User deleted successfully'})
+
 
 # Route for getting a single patient by ID
 @app.route('/api/patients/<int:patient_id>', methods=['GET'])

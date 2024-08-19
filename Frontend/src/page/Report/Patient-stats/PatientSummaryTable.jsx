@@ -1,13 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import Button from "../../components/button.jsx";
-import PatientTable from "./component/PatientTable.jsx";
-import AddPatientModal from "./component/AddPatientModal.jsx";
-import { toast } from "react-toastify";
+import PatientTable from "./components/patient-table/PatientTable";
 
-const PatientManagement = () => {
+const PatientSummaryTable = () => {
   const [patients, setPatients] = useState([]);
-  const [showAddModal, setShowAddModal] = useState(false);
+
   const [searchTerm, setSearchTerm] = useState("");
   const [filterBy, setFilterBy] = useState("");
 
@@ -26,20 +23,6 @@ const PatientManagement = () => {
 
     return () => clearInterval(interval); // Cleanup on unmount
   }, []);
-
-  const handleAddPatient = (newPatient) => {
-    axios
-      .post("/api/patients", newPatient)
-      .then((response) => {
-        setPatients([...patients, response.data]);
-        setShowAddModal(false);
-        toast.success("Patient added successfully!");
-      })
-      .catch((error) => {
-        console.error("Error adding patient:", error);
-        toast.error("Error adding patient. Please try again.");
-      });
-  };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -113,19 +96,11 @@ const PatientManagement = () => {
             <option value="admission_date">Admission Date</option>
           </select>
         </div>
-        <Button variant="primary" onClick={() => setShowAddModal(true)}>
-          Add Patient
-        </Button>
       </div>
 
       <PatientTable patients={filteredPatients} />
-      <AddPatientModal
-        show={showAddModal}
-        onClose={() => setShowAddModal(false)}
-        onSubmit={handleAddPatient}
-      />
     </div>
   );
 };
 
-export default PatientManagement;
+export default PatientSummaryTable;

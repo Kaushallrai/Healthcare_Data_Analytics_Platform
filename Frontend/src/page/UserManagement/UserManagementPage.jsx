@@ -1,9 +1,9 @@
 import Sidebar from "../../components/Sidebar";
 import Header from "../../components/Header";
-import PatientManagement from "./PatientManagement";
+import UserManagement from "./UserManagement";
 
-const PatientManagementPage = () => {
-  const pageTitle = "Patient Management";
+const UserManagementPage = () => {
+  const pageTitle = "User Management";
 
   return (
     <div className=" h-screen">
@@ -15,13 +15,13 @@ const PatientManagementPage = () => {
           id="mainpage"
         >
           <div className="flex items-center justify-between w-full">
-            <span className="text-2xl font-semibold">{pageTitle}</span>
+            <span className="text-2xl font-semibold">User Management</span>
           </div>
-          <PatientManagement />
+          <UserManagement />
         </div>
       </main>
     </div>
   );
 };
 
-export default PatientManagementPage;
+export default UserManagementPage;

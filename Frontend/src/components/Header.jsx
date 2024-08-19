@@ -24,7 +24,7 @@ const Header = () => {
         </div>
         <div className="font-semibold text-gray-600">Profile</div>
         <div className="h-7 w-7 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-semibold">
-          JD
+          KR
         </div>
       </div>
     </header>
